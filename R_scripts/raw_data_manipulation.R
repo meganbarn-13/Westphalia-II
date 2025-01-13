@@ -53,4 +53,38 @@ write.csv(weighted_deviation, "/Users/home/Documents/Westphalia-Code-II/Westphal
 missing_states <- setdiff(state_list$Entity, weighted_deviation$Entity)
 cat("states in list missing from deviations:\n")
 print(missing_states)
-# 
+
+
+
+# annual temperature deviations ====
+data_baseline<- read.csv("/Users/home/Documents/Westphalia-Code-II/Westphalia-II/temp_intermediate_files/baseline_temp.csv")
+data_current <- read.csv("/Users/home/Documents/Westphalia-Code-II/Westphalia-II/temp_intermediate_files/current_temp.csv")
+state_list <- read.csv("/Users/home/Documents/Westphalia-Code-II/Westphalia-II/list_of_states.csv")
+
+# identify states outside of scope
+extra_states <- anti_join(state_list, data_baseline, by = "Code")
+write.csv(extra_states, "/Users/home/Documents/Westphalia-Code-II/Westphalia-II/states_failed_to_rasterize.csv")
+
+# trim list_of_states
+updated_state_list <- state_list %>%
+  filter(!Code %in% extra_states$Code)
+
+# calculate abs value weighted deviation from 1950-80 baseline ====
+
+# absolute deviations for 1982-2023
+deviation_data <- data_current %>%
+  left_join(data_baseline, by = "Code") %>%
+  mutate(
+    abs_deviation = abs(MEAN - base.mean)
+  )
+
+# weighted deviation by country
+weighted_deviation <- deviation_data %>%
+  group_by(Code) %>%
+  summarise(
+    avg_weighted_deviation = mean(abs_deviation, na.rm = TRUE)
+  )
+
+write.csv(weighted_deviation, "/Users/home/Documents/Westphalia-Code-II/Westphalia-II/temp_weighted_dev.csv", row.names = FALSE)
+
+
