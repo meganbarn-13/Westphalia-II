@@ -63,11 +63,12 @@ state_list <- read.csv("/Users/home/Documents/Westphalia-Code-II/Westphalia-II/l
 
 # identify states outside of scope
 extra_states <- anti_join(state_list, data_baseline, by = "Code")
-write.csv(extra_states, "/Users/home/Documents/Westphalia-Code-II/Westphalia-II/states_failed_to_rasterize.csv")
+write.csv(extra_states, "/Users/home/Documents/Westphalia-Code-II/Westphalia-II/temp_intermediate_files/states_failed_to_rasterize.csv")
 
 # trim list_of_states
 updated_state_list <- state_list %>%
   filter(!Code %in% extra_states$Code)
+write.csv(updated_state_list, "/Users/home/Documents/Westphalia-Code-II/Westphalia-II/updated_list_of_states.csv")
 
 # calculate abs value weighted deviation from 1950-80 baseline ====
 
