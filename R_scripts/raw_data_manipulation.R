@@ -70,7 +70,7 @@ updated_state_list <- state_list %>%
   filter(!Code %in% extra_states$Code)
 write.csv(updated_state_list, "/Users/home/Documents/Westphalia-Code-II/Westphalia-II/updated_list_of_states.csv")
 
-# calculate abs value weighted deviation from 1950-80 baseline ====
+# calculate abs value deviation from 1950-80 baseline ====
 
 # absolute deviations for 1982-2023
 deviation_data <- data_current %>%
@@ -79,13 +79,13 @@ deviation_data <- data_current %>%
     abs_deviation = abs(MEAN - base.mean)
   )
 
-# weighted deviation by country
-weighted_deviation <- deviation_data %>%
+# deviation by country
+avg_temp_deviation <- deviation_data %>%
   group_by(Code) %>%
   summarise(
-    avg_weighted_deviation = mean(abs_deviation, na.rm = TRUE)
+    avg_temp_deviation = mean(abs_deviation, na.rm = TRUE)
   )
 
-write.csv(weighted_deviation, "/Users/home/Documents/Westphalia-Code-II/Westphalia-II/temp_weighted_dev.csv", row.names = FALSE)
+write.csv(avg_temp_deviation, "/Users/home/Documents/Westphalia-Code-II/Westphalia-II/final_indicator_files/temp_dev.csv", row.names = FALSE)
 
 
