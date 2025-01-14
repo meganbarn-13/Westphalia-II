@@ -27,7 +27,7 @@ deviation_data <- data_1982_2023 %>%
     abs_deviation = abs(Annual.precipitation - baseline_mean)
   )
 
-# weighted deviation by state
+# avg deviation by state
 avg_precip_deviation <- deviation_data %>%
   group_by(Entity) %>%
   summarise(
