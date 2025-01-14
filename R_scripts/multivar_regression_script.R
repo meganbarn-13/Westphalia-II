@@ -4,7 +4,7 @@ library(ggcorrplot)
 # multivariate regression model ====
 state_data = read.csv("/Users/home/Documents/Westphalia-Code-II/Westphalia-II/values_for_regression.csv")
 head(state_data)
-dim(churn_data)
+dim(state_data)
 
 env_model = lm(formula = problem_solving_score ~ temp_dev + precip_dev, 
                data = state_data)
